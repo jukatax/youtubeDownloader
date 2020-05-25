@@ -1,7 +1,8 @@
-let Btn = document.getElementById('btn');
-let URLinput = document.querySelector('.URL-input');
-let select = document.querySelector('.opt');
-let serverURL = 'http://localhost:4000';
+/** jshint esversion:6 */
+const Btn = document.getElementById('btn');
+const URLinput = document.querySelector('.URL-input');
+const select = document.querySelector('.opt');
+const serverURL = 'http://localhost:4000';
 
 Btn.addEventListener('click', () => {
 	if (!URLinput.value) {

@@ -5,6 +5,7 @@ const ytdl = require('ytdl-core');
 const app = express();
 
 app.use(cors());
+app.use(express.static("./web"));
 
 app.listen(4000, () => {
 	console.log('Server Works !!! At port 4000');
@@ -15,14 +16,16 @@ app.get('/downloadmp3', async (req, res, next) => {
 		var url = req.query.url;
 		let title = 'audio';
 		await ytdl.getBasicInfo(url, {
-			format: 'mp4'
+			//format: 'mp4'
+			quality: "highestaudio",
 		}, (err, info) => {
 			title = info.player_response.videoDetails.title;
 		});
 
 		res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
 		ytdl(url, {
-			format: 'mp3',
+			//format: 'mp3',
+			quality: "highestaudio",
 			filter: 'audioonly',
 		}).pipe(res);
 	} catch (err) {
@@ -39,11 +42,21 @@ app.get('/downloadmp4', async (req, res, next) => {
 			format: 'mp4'
 		}, (err, info) => {
 			title = info.player_response.videoDetails.title;
+			//console.log(`Video info : ${JSON.stringify(info.player_response.videoDetails)}`)
 		});
+
+		/* await ytdl.getInfo(URL, (err, info) => {
+			if (err) throw err;
+			let format = ytdl.chooseFormat(info.formats, { format: 'mp4' });
+			if (format) {
+				console.log('======== Format found ======\n', info.formats);
+				//console.log('======== Video info ========\n', info);
+			}
+		}); */
 
 		res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
 		ytdl(URL, {
-			format: 'mp4',
+			format: 'mp4'
 		}).pipe(res);
 	} catch (err) {
 		console.error(err);
